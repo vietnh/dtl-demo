@@ -37,8 +37,9 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         {
             SD.Trace.TraceInformation("AppAuthDialog::MessageReceivedAsync");
 
+            await context.PostAsync("Hello guest, first please login into our system.");
+
             var activity = await awaitableMessage as Activity;
-            await context.PostAsync("Let's make sure you're logged in ...");
 
             // Initialize AuthenticationOptions and forward to AuthDialog for token
             AuthenticationOptions options = new AuthenticationOptions()
@@ -158,7 +159,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
                 IBookReservationOperations icro = ServiceLocator.GetBookReservationOperations();
                 UserProfile userInfo = await icro.GetUserInformation(userName, userEmail);
                 authContext.ConversationData.SetValue<UserProfile>(UserSessionDataKey, userInfo);
-                authContext.Call(new BookReservationDialog(), this.ResumeAfterOptionDialog);
+                //authContext.Call(new BookReservationDialog(), this.ResumeAfterOptionDialog);
+                authContext.Done<object>(null);
 
             }
             catch (Exception ex)

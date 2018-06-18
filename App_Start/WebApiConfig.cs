@@ -1,7 +1,9 @@
+using Google.Maps;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 
@@ -11,6 +13,9 @@ namespace SimpleEchoBot
     {
         public static void Register(HttpConfiguration config)
         {
+            //always need to use YOUR_API_KEY for requests.  Do this in App_Start.
+            GoogleSigned.AssignAllServices(new GoogleSigned(ConfigurationManager.AppSettings["GoogleMapAPI"]));
+
             // Json settings
             config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
